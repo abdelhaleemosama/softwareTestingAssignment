@@ -20,9 +20,9 @@ public class DiscountCalculatorTest {
         Week week = new Week(date);
         DiscountCalculator testObject = new DiscountCalculator(week);
         // Act
-
+        boolean result = testObject.isTheSpecialWeek();
         // Assert
-        assertFalse(testObject.isTheSpecialWeek());
+        assertFalse(result);
     }
     @Test
     public void testIsTheSpecialWeekWhenTrue() throws Exception {
@@ -33,9 +33,9 @@ public class DiscountCalculatorTest {
         Week week = new Week(date);
         DiscountCalculator testObject = new DiscountCalculator(week);
         // Act
-
+        boolean result = testObject.isTheSpecialWeek();
         // Assert
-        assertTrue(testObject.isTheSpecialWeek());
+        assertTrue(result);
     }
     @Test(expected = Exception.class)
     public void testIsTheSpecialWeekWhenNullWeek() throws Exception {
@@ -47,7 +47,7 @@ public class DiscountCalculatorTest {
     }
 
     @Test
-    public void testgetDiscountPercentageWhenEvenWeek() throws Exception {
+    public void testGetDiscountPercentageWhenEvenWeek() throws Exception {
         // Arrange
         Calendar calendar = Calendar.getInstance();
         calendar.set(2025, Calendar.APRIL, 12);  // ( April, 12 is a date in an even week )
@@ -62,7 +62,7 @@ public class DiscountCalculatorTest {
     }
 
     @Test
-    public void testgetDiscountPercentageWhenOddWeek() throws Exception {
+    public void testGetDiscountPercentageWhenOddWeek() throws Exception {
         // Arrange
         Calendar calendar = Calendar.getInstance();
         calendar.set(2025, Calendar.APRIL, 19);  // ( April, 19 is a date in an odd week )
@@ -76,13 +76,9 @@ public class DiscountCalculatorTest {
         assertEquals(5, resultDiscountPercentage);
     }
 
-    //Mesh aaref ezay bas ahe mawgoda law eerefna
-    @Test
-    public void testgetDiscountPercentageWhenOutOfBounds() throws Exception {}
-
 
     @Test(expected = Exception.class)
-    public void testgetDiscountPercentageWhenNull() throws Exception {
+    public void testGetDiscountPercentageWhenNull() throws Exception {
         // Arrange
         Week week = new Week(null);
         DiscountCalculator testObject = new DiscountCalculator(week);

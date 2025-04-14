@@ -34,6 +34,12 @@ public class YearTest {
 
         assertEquals(2025, year.getYear());
     }
+    @Test(expected = NullPointerException.class)
+    public void testYearConstructorInstantTimeWithNull() {
+        year = new Year(null);
+
+        assertEquals(2025, year.getYear());
+    }
 
 
     @Test
@@ -46,11 +52,23 @@ public class YearTest {
 
         assertEquals(2025, year.getYear());
     }
+    @Test(expected = NullPointerException.class)
+    public void testYearConstructorTimeZoneWithNull() {
+        year = new Year(null, null);
+
+        assertEquals(2025, year.getYear());
+    }
 
 
     @Test
     public void testYearConstructorYear() {
         year = new Year(2025);
+
+        assertEquals(2025, year.getYear());
+    }
+    @Test(expected = NullPointerException.class)
+    public void testYearConstructorYearNullYear() {
+        year = new Year(null);
 
         assertEquals(2025, year.getYear());
     }
@@ -85,6 +103,11 @@ public class YearTest {
         long expectedOutput = calendar.getTimeInMillis();
 
         assertEquals(expectedOutput, actualOutput);
+
+        calendar.set(2024, Calendar.JANUARY, 1,0,0,0);
+        expectedOutput = calendar.getTimeInMillis();
+
+        assertNotEquals(expectedOutput, actualOutput);
     }
 
 
@@ -95,8 +118,11 @@ public class YearTest {
         long actualOutput = testYear.getLastMillisecond(calendar);
 
         calendar.set(2026, Calendar.JANUARY, 1,0,0,0);
-        long expectedOutput = calendar.getTimeInMillis() - 1000;// Last milliSecond of the previous second
+        long expectedOutput = calendar.getTimeInMillis();// Last milliSecond of the previous second
 
+        assertNotEquals(expectedOutput, actualOutput);
+
+        expectedOutput -= 1000;
         assertEquals(expectedOutput, actualOutput);
     }
 
@@ -122,11 +148,10 @@ public class YearTest {
     public void testHashCode(){
         Year testYear1 = new Year(2025);
         Year testYear2 = new Year(2026);
-        Year testYear3 = new Year(2026);
 
-        assertEquals(testYear3.hashCode(), testYear2.hashCode());
-        assertNotEquals(testYear1.hashCode(), testYear2.hashCode());
-        assertEquals(testYear1.hashCode(), new Year(2025).hashCode());
+        assertEquals(testYear1.hashCode() , (37 * 17 + testYear1.getYear()));
+        assertNotEquals(testYear1.hashCode(), (testYear2.hashCode()));
+        assertNotEquals(testYear1.hashCode(), (37 * 17 + testYear2.getYear()));
     }
 
 
@@ -137,6 +162,13 @@ public class YearTest {
 
         assertEquals(testYear.next(), testYear2);
         assertNotEquals(testYear2.next(), testYear);
+    }
+
+    @Test
+    public void testNextNullException(){
+        Year testYear = new Year(9999);
+
+        assertNull(testYear.next());
     }
 
 
@@ -175,8 +207,18 @@ public class YearTest {
         assertNotEquals(testYear.previous(), testYear2);
     }
     @Test
+    public void testPreviousNullOutput(){
+        Year testYear = new Year(1900);
+        Year testYear2 = new Year(-9999);
+
+        assertNull(testYear.previous());
+        assertNull(testYear2.previous());
+    }
+
+    @Test
     public void testToString(){
         Year testYear = new Year(2025);
+
         assertEquals("2025", testYear.toString());
         assertNotEquals(2025, testYear.toString());
         assertEquals("2025", new Year().toString());
