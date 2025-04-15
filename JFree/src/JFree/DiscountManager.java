@@ -10,7 +10,7 @@ public class DiscountManager {
     }
 
     public double calculatePriceAfterDiscount(double price) {
-        if (! isDiscountsSeason) {
+        if (!isDiscountsSeason) {
             return price;
         }
 

@@ -1,4 +1,5 @@
 package test;
+
 import JFree.DiscountManager;
 import JFree.IDiscountCalculator;
 import org.jmock.Expectations;
@@ -17,7 +18,7 @@ public class DiscountManagerTest {
 
         Mockery mockingContext = new Mockery();
         IDiscountCalculator mockedDependency = mockingContext.mock(IDiscountCalculator.class);
-        mockingContext.checking(new Expectations(){
+        mockingContext.checking(new Expectations() {
             {
                 // make sure that none of the functions are called
                 never(mockedDependency).getDiscountPercentage();
@@ -46,7 +47,7 @@ public class DiscountManagerTest {
 
         Mockery mockingContext = new Mockery();
         IDiscountCalculator mockedDependency = mockingContext.mock(IDiscountCalculator.class);
-        mockingContext.checking(new Expectations(){
+        mockingContext.checking(new Expectations() {
             {
                 allowing(mockedDependency).isTheSpecialWeek();
                 will(returnValue(isSpecialWeek));
@@ -76,7 +77,7 @@ public class DiscountManagerTest {
 
         Mockery mockingContext = new Mockery();
         IDiscountCalculator mockedDependency = mockingContext.mock(IDiscountCalculator.class);
-        mockingContext.checking(new Expectations(){
+        mockingContext.checking(new Expectations() {
             {
                 // make sure that none of the functions are called
                 allowing(mockedDependency).getDiscountPercentage();
