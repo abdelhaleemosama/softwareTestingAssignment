@@ -26,7 +26,7 @@ public class YearTest {
 
 
     @Test
-    public void testYearConstructorInstantTime() {
+    public void testYearConstructorInstantTimeZone() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2025, Calendar.MARCH, 12);  // March 22, 2025
         Date testDate = calendar.getTime();
@@ -34,12 +34,34 @@ public class YearTest {
 
         assertEquals(2025, year.getYear());
     }
+
     @Test(expected = NullPointerException.class)
-    public void testYearConstructorInstantTimeWithNull() {
+    public void testYearConstructorInstantTimeZoneWithNull() {
         year = new Year(null);
 
         assertEquals(2025, year.getYear());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testYearConstructorInstantTimeZoneWithInvalidLowYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(1899, Calendar.MARCH, 12);  // March 22, 2025
+        Date testDate = calendar.getTime();
+        year = new Year(testDate);
+
+        assertEquals(1899, year.getYear());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testYearConstructorInstantTimeZoneWithInvalidYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(10000, Calendar.MARCH, 12);  // March 22, 2025
+        Date testDate = calendar.getTime();
+        year = new Year(testDate);
+
+        assertEquals(10000, year.getYear());
+    }
+
 
 
     @Test
@@ -52,12 +74,36 @@ public class YearTest {
 
         assertEquals(2025, year.getYear());
     }
+
     @Test(expected = NullPointerException.class)
     public void testYearConstructorTimeZoneWithNull() {
         year = new Year(null, null);
 
         assertEquals(2025, year.getYear());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testYearConstructorTimeZoneWithInvalidLowYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(1899, Calendar.MARCH, 12);  // March 22, 2025
+        Date testDate = calendar.getTime();
+        TimeZone timeZone = TimeZone.getTimeZone("GMT");
+        year = new Year(testDate, timeZone);
+
+        assertEquals(1899, year.getYear());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testYearConstructorTimeZoneWithInvalidYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(10000, Calendar.MARCH, 12);  // March 22, 2025
+        Date testDate = calendar.getTime();
+        TimeZone timeZone = TimeZone.getTimeZone("GMT");
+        year = new Year(testDate, timeZone);
+
+        assertEquals(10000, year.getYear());
+    }
+
 
 
     @Test
@@ -66,12 +112,29 @@ public class YearTest {
 
         assertEquals(2025, year.getYear());
     }
+
     @Test(expected = NullPointerException.class)
     public void testYearConstructorYearNullYear() {
         year = new Year(null);
 
         assertEquals(2025, year.getYear());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testYearConstructorWithInvalidYear() {
+        year = new Year(10000);
+
+        assertEquals(10000, year.getYear());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testYearConstructorWithInvalidLowYear() {
+        year = new Year(1899);
+
+        assertEquals(1899, year.getYear());
+    }
+
+
 
     @Test
     public void testCompareTo(){
@@ -177,9 +240,16 @@ public class YearTest {
         Year testYear = Year.parseYear("2025");
 
         assertEquals(2025, testYear.getYear());
+
+        assertEquals(2023,  Year.parseYear(" 2023 ").getYear());
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseYearWithInvalidArguments(){
+
+        //For The next 2 examples the parse should return the expected,
+        // but the object year itself should throw an exception
         assertEquals(0,  Year.parseYear("0").getYear());
         assertEquals(-1,  Year.parseYear("-1").getYear());
-        assertEquals(2023,  Year.parseYear(" 2023 ").getYear());
     }
 
     @Test(expected = IllegalArgumentException.class)
